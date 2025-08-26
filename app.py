@@ -181,6 +181,62 @@ def load_orders_from_sheets(force_refresh=False):
         set_cache(cache_key, mock_data)
         return mock_data
 
+
+
+# Add alongside your existing SHEET_ID
+CHECKLIST_SHEET_ID = "1jkeob2XkPLBDgqqQqjKeQXq686EmxQhenEET8yuKvlk"
+
+# New function to load checklist data
+def load_checklist_from_sheets(booth_number, force_refresh=False):
+    """Load checklist items for a specific booth from Google Sheets"""
+    cache_key = f"checklist_{booth_number}_{CHECKLIST_SHEET_ID}"
+    
+    if not force_refresh:
+        cached_data = get_from_cache(cache_key, allow_cache=True)
+        if cached_data:
+            return cached_data
+    
+    try:
+        if not gs_manager:
+            return {'total_items': 0, 'checked_items': 0, 'progress': 0, 'items': []}
+            
+        # Get checklist data from the sheet
+        data = gs_manager.get_data(CHECKLIST_SHEET_ID, "Sheet1")  # Adjust sheet name if needed
+        
+        if data and len(data) > 0:
+            checklist_items = gs_manager.parse_checklist_data(data, booth_number)
+            
+            total_items = len(checklist_items)
+            checked_items = len([item for item in checklist_items if item['checked']])
+            progress = (checked_items / total_items * 100) if total_items > 0 else 0
+            
+            result = {
+                'booth': booth_number,
+                'total_items': total_items,
+                'checked_items': checked_items,
+                'progress': round(progress, 1),
+                'items': checklist_items,
+                'last_updated': datetime.now().isoformat()
+            }
+            
+            set_cache(cache_key, result)
+            return result
+            
+    except Exception as e:
+        logger.error(f"Error loading checklist for booth {booth_number}: {e}")
+        
+    return {'total_items': 0, 'checked_items': 0, 'progress': 0, 'items': []}
+
+# New API endpoint for checklist
+@app.route('/api/checklist/booth/<booth_number>', methods=['GET'])
+def get_checklist_by_booth(booth_number):
+    """Get checklist for a specific booth number"""
+    force_refresh = request.args.get(FORCE_REFRESH_PARAM, 'false').lower() == 'true'
+    checklist_data = load_checklist_from_sheets(booth_number, force_refresh)
+    return jsonify(checklist_data)
+
+
+
 # REACT APP SERVING ROUTES
 @app.route('/')
 def serve_react_app():
