@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowRight, Sparkles, Building2, Package, CheckCircle, Shield, Lock, Truck, CheckCircle2, Clock, AlertCircle, MapPin, Star, Zap, Bell, RefreshCw, Award, Search, X } from 'lucide-react';
+import { ArrowRight, Sparkles, Building2, Package, CheckCircle, Shield, Lock, Truck, CheckCircle2, Clock, AlertCircle, MapPin, Star, Zap, Bell, RefreshCw, Award, Search, X, Circle, Target, TrendingUp, Activity } from 'lucide-react';
 
 function App() {
   const [stage, setStage] = useState('intro');
@@ -28,6 +28,304 @@ function App() {
   };
 
 
+
+
+
+import { CheckCircle2, Circle, Zap, Target, TrendingUp, Activity } from 'lucide-react';
+
+const FuturisticChecklistProgress = ({ 
+  checklistData, 
+  exhibitorName, 
+  boothNumber,
+  onRefresh 
+}) => {
+  const [animationPhase, setAnimationPhase] = useState(0);
+  const [pulseActive, setPulseActive] = useState(false);
+  
+  const { total_items, checked_items, progress, items } = checklistData;
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimationPhase(1);
+    }, 300);
+    
+    const pulseTimer = setInterval(() => {
+      setPulseActive(prev => !prev);
+    }, 2000);
+    
+    return () => {
+      clearTimeout(timer);
+      clearInterval(pulseTimer);
+    };
+  }, []);
+
+  // Circular progress component
+  const CircularProgress = ({ percentage, size = 120 }) => {
+    const radius = (size - 10) / 2;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDasharray = circumference;
+    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+    
+    return (
+      <div className="relative">
+        <svg width={size} height={size} className="transform -rotate-90">
+          {/* Background circle */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(156, 163, 175, 0.2)"
+            strokeWidth="8"
+          />
+          {/* Progress circle */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="url(#progressGradient)"
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset={strokeDashoffset}
+            className="transition-all duration-2000 ease-out"
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(6, 182, 212, 0.4))'
+            }}
+          />
+          {/* Glow effect */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            fill="none"
+            stroke="rgba(6, 182, 212, 0.3)"
+            strokeWidth="12"
+            strokeLinecap="round"
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset={strokeDashoffset}
+            className={`transition-all duration-2000 ease-out ${pulseActive ? 'opacity-60' : 'opacity-20'}`}
+          />
+        </svg>
+        
+        {/* Center content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="text-3xl font-bold text-gray-900 mb-1">
+            {Math.round(percentage)}%
+          </div>
+          <div className="text-sm text-gray-600 font-medium">
+            {checked_items}/{total_items}
+          </div>
+          <div className="text-xs text-teal-600 font-medium">
+            Complete
+          </div>
+        </div>
+        
+        {/* SVG Gradient Definition */}
+        <svg width="0" height="0">
+          <defs>
+            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#06b6d4" />
+              <stop offset="50%" stopColor="#0891b2" />
+              <stop offset="100%" stopColor="#0e7490" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    );
+  };
+
+  // Progress bar component
+  const LinearProgress = ({ percentage }) => {
+    return (
+      <div className="relative w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full"></div>
+        
+        {/* Progress fill */}
+        <div 
+          className="relative h-full bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 rounded-full transition-all duration-2000 ease-out"
+          style={{ width: `${percentage}%` }}
+        >
+          {/* Animated shine effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine rounded-full"></div>
+          
+          {/* Pulse effect */}
+          <div className={`absolute inset-0 bg-gradient-to-r from-teal-400/60 to-cyan-500/60 rounded-full transition-opacity duration-1000 ${pulseActive ? 'opacity-100' : 'opacity-0'}`}></div>
+        </div>
+        
+        {/* Glow effect */}
+        <div 
+          className="absolute top-0 left-0 h-full bg-gradient-to-r from-teal-400/30 to-cyan-500/30 rounded-full blur-sm transition-all duration-2000 ease-out"
+          style={{ width: `${percentage}%` }}
+        ></div>
+      </div>
+    );
+  };
+
+  return (
+    <div className={`transform transition-all duration-1000 ${animationPhase === 1 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+      <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 border border-gray-200/60 shadow-2xl relative overflow-hidden">
+        
+        {/* Animated background elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-teal-100/40 to-cyan-100/40 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100/40 to-teal-100/40 rounded-full blur-xl animate-pulse delay-1000"></div>
+        
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Target className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Booth Setup Progress</h3>
+                <p className="text-sm text-gray-600">Booth {boothNumber} • {exhibitorName}</p>
+              </div>
+            </div>
+            <button 
+              onClick={onRefresh}
+              className="p-2 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-300 hover:scale-105"
+            >
+              <Activity className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Main progress display */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+            
+            {/* Circular Progress */}
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <CircularProgress percentage={progress} />
+              <div className="text-center">
+                <div className="text-sm font-medium text-gray-700 mb-1">
+                  Overall Completion
+                </div>
+                <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  <span>{checked_items} completed</span>
+                  <span>•</span>
+                  <Circle className="w-4 h-4 text-gray-400" />
+                  <span>{total_items - checked_items} remaining</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats and Linear Progress */}
+            <div className="space-y-6">
+              
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-100">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    <span className="text-sm font-medium text-gray-700">Completed</span>
+                  </div>
+                  <div className="text-2xl font-bold text-green-600">{checked_items}</div>
+                </div>
+                
+                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-4 border border-blue-100">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <TrendingUp className="w-5 h-5 text-blue-500" />
+                    <span className="text-sm font-medium text-gray-700">Progress</span>
+                  </div>
+                  <div className="text-2xl font-bold text-blue-600">{Math.round(progress)}%</div>
+                </div>
+              </div>
+
+              {/* Linear Progress Bar */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Setup Progress</span>
+                  <span className="text-sm font-bold text-gray-900">{Math.round(progress)}%</span>
+                </div>
+                <LinearProgress percentage={progress} />
+                <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
+                  <Zap className="w-3 h-3 text-teal-500" />
+                  <span>Live updates from Expo CCI</span>
+                </div>
+              </div>
+
+              {/* Status indicator */}
+              <div className={`p-3 rounded-xl border ${
+                progress === 100 
+                  ? 'bg-green-50 border-green-200 text-green-800' 
+                  : progress > 50 
+                  ? 'bg-blue-50 border-blue-200 text-blue-800'
+                  : 'bg-orange-50 border-orange-200 text-orange-800'
+              }`}>
+                <div className="flex items-center space-x-2">
+                  {progress === 100 ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Activity className="w-4 h-4" />
+                  )}
+                  <span className="text-sm font-medium">
+                    {progress === 100 
+                      ? 'Booth setup completed!' 
+                      : progress > 50 
+                      ? 'Setup in progress - on track'
+                      : 'Setup starting soon'
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          {items.some(item => item.checked) && (
+            <div className="border-t border-gray-100 pt-6">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+                <Zap className="w-4 h-4 text-teal-500" />
+                <span>Recent Completions</span>
+              </h4>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {items
+                  .filter(item => item.checked)
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <div key={item.id} className="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
+                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate">
+                          {item.item_name}
+                        </div>
+                        {item.date_checked && (
+                          <div className="text-xs text-gray-500">
+                            Completed {item.date_checked}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          )}
+        </div>
+
+        <style jsx>{`
+          @keyframes shine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(200%); }
+          }
+          .animate-shine {
+            animation: shine 3s ease-in-out infinite;
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+};
+
+export default FuturisticChecklistProgress;
+
+
+
+  
 
 
   
