@@ -607,9 +607,14 @@ export default FuturisticChecklistProgress;
     }
   };
 
-  const handleOrdersClick = () => {
+  const handleOrdersClick = async () => {
     setStage('orders');
-    fetchOrdersByBooth(boothNumber);
+    const [ordersData, checklistData] = await Promise.all([
+      fetchOrdersByBooth(boothNumber),
+      fetchChecklistByBooth(boothNumber)
+    ]);
+    // Set both orders and checklist state
+    setChecklist(checklistData); // Add this state variable
   };
 
   // EXACT handleRefresh from the second file
