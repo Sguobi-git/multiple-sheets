@@ -317,7 +317,7 @@ const FuturisticChecklistProgress = ({
   );
 };
 
-export default FuturisticChecklistProgress;
+// export default FuturisticChecklistProgress;
 
 
 
