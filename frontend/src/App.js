@@ -29,10 +29,6 @@ function App() {
 
 
 
-
-
-import { CheckCircle2, Circle, Zap, Target, TrendingUp, Activity } from 'lucide-react';
-
 const FuturisticChecklistProgress = ({ 
   checklistData, 
   exhibitorName, 
