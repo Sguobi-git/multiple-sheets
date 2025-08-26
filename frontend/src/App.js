@@ -13,6 +13,24 @@ function App() {
   const [abacusStatus, setAbacusStatus] = useState(null);
   const [exhibitorName, setExhibitorName] = useState('');
 
+  const fetchChecklistByBooth = async (boothNum, forceRefresh = false) => {
+    try {
+      const url = `${API_BASE}/checklist/booth/${encodeURIComponent(boothNum)}${forceRefresh ? '?force_refresh=true' : ''}`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch checklist');
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching checklist:', error);
+      return { total_items: 0, checked_items: 0, progress: 0, items: [] };
+    }
+  };
+
+
+
+
+  
   // EXACT Professional icon generator from previous app
   const generateExhibitorIcon = (exhibitorName, boothNumber) => {
     // Extract booth section (letter) and number
