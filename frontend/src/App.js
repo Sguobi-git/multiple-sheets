@@ -12,6 +12,7 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [abacusStatus, setAbacusStatus] = useState(null);
   const [exhibitorName, setExhibitorName] = useState('');
+  const [checklist, setChecklist] = useState(null);
 
   const fetchChecklistByBooth = async (boothNum, forceRefresh = false) => {
     try {
