@@ -908,6 +908,19 @@ export default FuturisticChecklistProgress;
             </div>
           </div>
 
+
+          {/* Add this after your stats overview and before orders grid */}
+          {checklist && (
+            <div className="mb-8">
+              <FuturisticChecklistProgress 
+                checklistData={checklist}
+                exhibitorName={exhibitorName}
+                boothNumber={boothNumber}
+                onRefresh={() => fetchChecklistByBooth(boothNumber, true)}
+              />
+            </div>
+          )}
+
           {/* Order Status Legend - EXACT from second file */}
           <div className="bg-white/90 backdrop-blur-lg rounded-2xl p-6 border border-gray-200 shadow-lg mb-8">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Delivery Steps</h2>
