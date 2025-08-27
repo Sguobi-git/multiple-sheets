@@ -298,40 +298,6 @@ class GoogleSheetsManager:
             logger.error(f"Error getting exhibitors: {e}")
             return []
 
-# Example usage and testing
-def test_sheets_integration():
-    """Test the Google Sheets integration"""
-    
-    # Initialize manager
-    manager = GoogleSheetsManager()
-    
-    # Your sheet ID
-    sheet_id = "1a4kJdYGGCs1_mr5ZEJBHWfiKosQdQO1XmpW6DPu4TRQ"
-    
-    try:
-        # Test getting all exhibitors
-        print("Testing exhibitors retrieval...")
-        exhibitors = manager.get_all_exhibitors(sheet_id)
-        print(f"Found {len(exhibitors)} exhibitors:")
-        for exhibitor in exhibitors:
-            print(f"  - {exhibitor['name']} (Booth {exhibitor['booth']}): {exhibitor['total_orders']} orders")
-        
-        # Test getting orders for specific exhibitor
-        if exhibitors:
-            test_exhibitor = exhibitors[0]['name']
-            print(f"\nTesting orders for {test_exhibitor}...")
-            orders = manager.get_orders_for_exhibitor(sheet_id, test_exhibitor)
-            print(f"Found {len(orders)} orders for {test_exhibitor}")
-            
-            if orders:
-                print("Sample order:")
-                print(f"  - {orders[0]['item']} (Status: {orders[0]['status']})")
-        
-    except Exception as e:
-        print(f"Test failed: {e}")
-
-
-
 
     def parse_checklist_data(self, data: List[List], booth_number: str) -> List[Dict]:
         """
@@ -401,6 +367,43 @@ def test_sheets_integration():
         except Exception as e:
             logger.error(f"Error parsing checklist data: {e}")
             return []
+
+
+
+
+
+# Example usage and testing
+def test_sheets_integration():
+    """Test the Google Sheets integration"""
+    
+    # Initialize manager
+    manager = GoogleSheetsManager()
+    
+    # Your sheet ID
+    sheet_id = "1a4kJdYGGCs1_mr5ZEJBHWfiKosQdQO1XmpW6DPu4TRQ"
+    
+    try:
+        # Test getting all exhibitors
+        print("Testing exhibitors retrieval...")
+        exhibitors = manager.get_all_exhibitors(sheet_id)
+        print(f"Found {len(exhibitors)} exhibitors:")
+        for exhibitor in exhibitors:
+            print(f"  - {exhibitor['name']} (Booth {exhibitor['booth']}): {exhibitor['total_orders']} orders")
+        
+        # Test getting orders for specific exhibitor
+        if exhibitors:
+            test_exhibitor = exhibitors[0]['name']
+            print(f"\nTesting orders for {test_exhibitor}...")
+            orders = manager.get_orders_for_exhibitor(sheet_id, test_exhibitor)
+            print(f"Found {len(orders)} orders for {test_exhibitor}")
+            
+            if orders:
+                print("Sample order:")
+                print(f"  - {orders[0]['item']} (Status: {orders[0]['status']})")
+        
+    except Exception as e:
+        print(f"Test failed: {e}")
+
 
 
 if __name__ == "__main__":
