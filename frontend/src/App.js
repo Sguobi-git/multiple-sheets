@@ -637,11 +637,37 @@ const FuturisticChecklistProgress = ({
   };
 
   // EXACT handleRefresh from the second file
-  const handleRefresh = () => {
+  // const handleRefresh = () => {
+  //   if (boothNumber && !loading) {
+  //     fetchOrdersByBooth(boothNumber, true);
+  //   }
+  // };
+
+
+  // Update your existing handleRefresh function
+  const handleRefresh = async () => {
     if (boothNumber && !loading) {
-      fetchOrdersByBooth(boothNumber, true);
+      setLoading(true);
+      try {
+        // Refresh both orders and checklist in parallel
+        const [ordersData, checklistData] = await Promise.all([
+          fetchOrdersByBooth(boothNumber, true), // force_refresh=true
+          fetchChecklistByBooth(boothNumber, true) // force_refresh=true
+        ]);
+        
+        // Update checklist state with fresh data
+        setChecklist(checklistData);
+        
+      } catch (error) {
+        console.error('Error refreshing data:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
+
+
+
 
   if (stage === 'intro') {
     return (
