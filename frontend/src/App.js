@@ -29,7 +29,6 @@ function App() {
   };
 
 
-
 const FuturisticChecklistProgress = ({ 
   checklistData, 
   exhibitorName, 
@@ -305,12 +304,34 @@ const FuturisticChecklistProgress = ({
 
         <style jsx>{`
           @keyframes shine {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-            100% { transform: translateX(200%); }
+            0% { 
+              transform: translateX(-100%); 
+              opacity: 0;
+            }
+            10% { 
+              opacity: 1;
+            }
+            50% { 
+              transform: translateX(100%); 
+              opacity: 1;
+            }
+            90% { 
+              opacity: 1;
+            }
+            100% { 
+              transform: translateX(200%); 
+              opacity: 0;
+            }
           }
           .animate-shine {
-            animation: shine 3s ease-in-out infinite;
+            animation: shine 4s ease-in-out infinite;
+            background: linear-gradient(90deg, 
+              transparent 0%, 
+              rgba(255,255,255,0.1) 20%, 
+              rgba(255,255,255,0.6) 50%, 
+              rgba(255,255,255,0.1) 80%, 
+              transparent 100%
+            );
           }
         `}</style>
       </div>
@@ -318,7 +339,8 @@ const FuturisticChecklistProgress = ({
   );
 };
 
-// export default FuturisticChecklistProgress;
+export default FuturisticChecklistProgress;
+
 
 
 
