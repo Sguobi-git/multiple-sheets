@@ -310,11 +310,15 @@ const FuturisticChecklistProgress = ({
             10% { 
               opacity: 1;
             }
+            50% { 
+              transform: translateX(100%); 
+              opacity: 1;
+            }
             90% { 
               opacity: 1;
             }
             100% { 
-              transform: translateX(100%); 
+              transform: translateX(200%); 
               opacity: 0;
             }
           }
