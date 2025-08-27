@@ -333,74 +333,74 @@ def test_sheets_integration():
 
 
 
-def parse_checklist_data(self, data: List[List], booth_number: str) -> List[Dict]:
-    """
-    Parse checklist data for a specific booth
-    """
-    checklist_items = []
-    
-    try:
-        if not data or len(data) < 2:
-            return []
+    def parse_checklist_data(self, data: List[List], booth_number: str) -> List[Dict]:
+        """
+        Parse checklist data for a specific booth
+        """
+        checklist_items = []
         
-        # Find header row
-        headers = []
-        header_row_idx = 0
-        
-        for i, row in enumerate(data):
-            if any('Booth' in str(cell) for cell in row):
-                headers = [str(cell).strip() for cell in row]
-                header_row_idx = i
-                break
-        
-        if not headers:
-            headers = [str(cell).strip() for cell in data[0]]
+        try:
+            if not data or len(data) < 2:
+                return []
+            
+            # Find header row
+            headers = []
             header_row_idx = 0
-        
-        logger.info(f"Checklist headers: {headers}")
-        
-        # Process data rows for the specific booth
-        for row_idx, row in enumerate(data[header_row_idx + 1:], start=header_row_idx + 1):
-            if not row or len(row) == 0:
-                continue
             
-            # Create dictionary from row data
-            row_dict = {}
-            for i, value in enumerate(row):
-                if i < len(headers):
-                    row_dict[headers[i]] = str(value).strip()
+            for i, row in enumerate(data):
+                if any('Booth' in str(cell) for cell in row):
+                    headers = [str(cell).strip() for cell in row]
+                    header_row_idx = i
+                    break
             
-            # Check if this row belongs to our booth
-            row_booth = row_dict.get('Booth #', '').strip()
-            if row_booth != booth_number:
-                continue
+            if not headers:
+                headers = [str(cell).strip() for cell in data[0]]
+                header_row_idx = 0
             
-            # Parse the Status column (TRUE/FALSE)
-            status_value = row_dict.get('Status', '').strip().upper()
-            is_checked = status_value == 'TRUE'
+            logger.info(f"Checklist headers: {headers}")
             
-            # Create checklist item
-            item = {
-                'id': f"CHK-{booth_number}-{row_idx}",
-                'booth_number': row_booth,
-                'exhibitor_name': row_dict.get('Exhibitor Name', '').strip(),
-                'item_name': row_dict.get('Item Name', '').strip(),
-                'quantity': self._safe_int(row_dict.get('Quantity', '1')),
-                'special_instructions': row_dict.get('Special Instructions', '').strip(),
-                'checked': is_checked,
-                'date_checked': row_dict.get('Date', '').strip() if is_checked else '',
-                'hour_checked': row_dict.get('Hour', '').strip() if is_checked else '',
-                'section': row_dict.get('Section', '').strip()
-            }
+            # Process data rows for the specific booth
+            for row_idx, row in enumerate(data[header_row_idx + 1:], start=header_row_idx + 1):
+                if not row or len(row) == 0:
+                    continue
+                
+                # Create dictionary from row data
+                row_dict = {}
+                for i, value in enumerate(row):
+                    if i < len(headers):
+                        row_dict[headers[i]] = str(value).strip()
+                
+                # Check if this row belongs to our booth
+                row_booth = row_dict.get('Booth #', '').strip()
+                if row_booth != booth_number:
+                    continue
+                
+                # Parse the Status column (TRUE/FALSE)
+                status_value = row_dict.get('Status', '').strip().upper()
+                is_checked = status_value == 'TRUE'
+                
+                # Create checklist item
+                item = {
+                    'id': f"CHK-{booth_number}-{row_idx}",
+                    'booth_number': row_booth,
+                    'exhibitor_name': row_dict.get('Exhibitor Name', '').strip(),
+                    'item_name': row_dict.get('Item Name', '').strip(),
+                    'quantity': self._safe_int(row_dict.get('Quantity', '1')),
+                    'special_instructions': row_dict.get('Special Instructions', '').strip(),
+                    'checked': is_checked,
+                    'date_checked': row_dict.get('Date', '').strip() if is_checked else '',
+                    'hour_checked': row_dict.get('Hour', '').strip() if is_checked else '',
+                    'section': row_dict.get('Section', '').strip()
+                }
+                
+                checklist_items.append(item)
             
-            checklist_items.append(item)
-        
-        logger.info(f"Parsed {len(checklist_items)} checklist items for booth {booth_number}")
-        return checklist_items
-        
-    except Exception as e:
-        logger.error(f"Error parsing checklist data: {e}")
-        return []
+            logger.info(f"Parsed {len(checklist_items)} checklist items for booth {booth_number}")
+            return checklist_items
+            
+        except Exception as e:
+            logger.error(f"Error parsing checklist data: {e}")
+            return []
 
 
 if __name__ == "__main__":
