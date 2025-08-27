@@ -201,7 +201,7 @@ def load_checklist_from_sheets(booth_number, force_refresh=False):
             return {'total_items': 0, 'checked_items': 0, 'progress': 0, 'items': []}
             
         # Get checklist data from the sheet
-        data = gs_manager.get_data(CHECKLIST_SHEET_ID, "Sheet1")  # Adjust sheet name if needed
+        data = gs_manager.get_data(CHECKLIST_SHEET_ID, "Orders")  # Adjust sheet name if needed
         
         if data and len(data) > 0:
             checklist_items = gs_manager.parse_checklist_data(data, booth_number)
