@@ -29,6 +29,7 @@ function App() {
   };
 
 
+
 const FuturisticChecklistProgress = ({ 
   checklistData, 
   exhibitorName, 
@@ -146,9 +147,6 @@ const FuturisticChecklistProgress = ({
         >
           {/* Animated shine effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine rounded-full"></div>
-          
-          {/* Pulse effect */}
-          <div className={`absolute inset-0 bg-gradient-to-r from-teal-400/60 to-cyan-500/60 rounded-full transition-opacity duration-1000 ${pulseActive ? 'opacity-100' : 'opacity-0'}`}></div>
         </div>
         
         {/* Glow effect */}
@@ -338,6 +336,7 @@ const FuturisticChecklistProgress = ({
     </div>
   );
 };
+  
 
 // export default FuturisticChecklistProgress;
 
