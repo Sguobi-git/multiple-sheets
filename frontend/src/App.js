@@ -247,7 +247,7 @@ const FuturisticChecklistProgress = ({
               <div className={`p-3 rounded-xl border ${
                 progress === 100 
                   ? 'bg-green-50 border-green-200 text-green-800' 
-                  : progress > 50 
+                  : progress > 0 
                   ? 'bg-blue-50 border-blue-200 text-blue-800'
                   : 'bg-orange-50 border-orange-200 text-orange-800'
               }`}>
@@ -260,7 +260,7 @@ const FuturisticChecklistProgress = ({
                   <span className="text-sm font-medium">
                     {progress === 100 
                       ? 'Booth setup completed!' 
-                      : progress > 50 
+                      : progress > 0 
                       ? 'Setup in progress - on track'
                       : 'Setup starting soon'
                     }
