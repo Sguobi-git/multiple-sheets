@@ -357,6 +357,8 @@ def parse_checklist_data(self, data: List[List], booth_number: str) -> List[Dict
             headers = [str(cell).strip() for cell in data[0]]
             header_row_idx = 0
         
+        logger.info(f"Checklist headers: {headers}")
+        
         # Process data rows for the specific booth
         for row_idx, row in enumerate(data[header_row_idx + 1:], start=header_row_idx + 1):
             if not row or len(row) == 0:
@@ -399,7 +401,6 @@ def parse_checklist_data(self, data: List[List], booth_number: str) -> List[Dict
     except Exception as e:
         logger.error(f"Error parsing checklist data: {e}")
         return []
-
 
 
 if __name__ == "__main__":
