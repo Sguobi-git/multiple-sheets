@@ -146,8 +146,8 @@ const FuturisticChecklistProgress = ({
           className="relative h-full bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-500 rounded-full transition-all duration-2000 ease-out"
           style={{ width: `${percentage}%` }}
         >
-          {/* Animated shine effect - using same logic as order progress bars */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent w-20 animate-shine-sweep"></div>
+          {/* Animated shine effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine rounded-full"></div>
         </div>
         
         {/* Glow effect */}
@@ -322,10 +322,6 @@ const FuturisticChecklistProgress = ({
               opacity: 0;
             }
           }
-          @keyframes shine-sweep {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(calc(100vw)); }
-          }
           .animate-shine {
             animation: shine 4s ease-in-out infinite;
             background: linear-gradient(90deg, 
@@ -335,9 +331,6 @@ const FuturisticChecklistProgress = ({
               rgba(255,255,255,0.1) 80%, 
               transparent 100%
             );
-          }
-          .animate-shine-sweep {
-            animation: shine-sweep 2s ease-in-out infinite;
           }
         `}</style>
       </div>
