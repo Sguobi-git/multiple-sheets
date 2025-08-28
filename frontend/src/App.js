@@ -649,15 +649,6 @@ const FuturisticChecklistProgress = ({
     }
   };
 
-  const handleOrdersClick = async () => {
-    setStage('orders');
-    const [ordersData, checklistData] = await Promise.all([
-      fetchOrdersByBooth(boothNumber),
-      fetchChecklistByBooth(boothNumber)
-    ]);
-    // Set both orders and checklist state
-    setChecklist(checklistData); // Add this state variable
-  };
 
   // EXACT handleRefresh from the second file
   // const handleRefresh = () => {
