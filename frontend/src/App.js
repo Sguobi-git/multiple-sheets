@@ -623,11 +623,25 @@ const FuturisticChecklistProgress = ({
     );
   };
 
-  const handleBoothSubmit = () => {
+  // const handleBoothSubmit = () => {
+  //   if (boothNumber.trim()) {
+  //     setStage('options');
+  //   }
+  // };
+  const handleBoothSubmit = async () => {
     if (boothNumber.trim()) {
-      setStage('options');
+      setStage('orders');
+      const [ordersData, checklistData] = await Promise.all([
+        fetchOrdersByBooth(boothNumber),
+        fetchChecklistByBooth(boothNumber)
+      ]);
+      setChecklist(checklistData);
     }
   };
+
+
+
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
