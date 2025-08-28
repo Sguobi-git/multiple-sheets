@@ -873,7 +873,7 @@ const FuturisticChecklistProgress = ({
                   )}
                 </div>
                 <button 
-                  onClick={() => setStage('options')}
+                  onClick={() => setStage('welcome')}
                   className="px-3 py-2 md:px-6 md:py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl md:rounded-2xl transition-all duration-300 border border-gray-200 text-sm md:text-base"
                 >
                   ← Back
