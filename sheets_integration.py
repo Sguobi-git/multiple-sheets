@@ -338,7 +338,7 @@ class GoogleSheetsManager:
                 
                 # Check if this row belongs to our booth
                 row_booth = row_dict.get('Booth #', '').strip()
-                if row_booth != booth_number:
+                if row_booth.lower() != booth_number.lower():
                     continue
                 
                 # Parse the Status column (TRUE/FALSE)
