@@ -810,73 +810,7 @@ const FuturisticChecklistProgress = ({
     );
   }
 
-  if (stage === 'options') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-teal-100/40 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-100/60 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-teal-50/60 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative min-h-screen flex items-center justify-center p-6">
-          <div className="w-full max-w-5xl mx-auto">
-            
-            <div className="text-center mb-16">
-              <div className="mb-6">
-                <ExpoLogo size="large" />
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                Choose your action
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              
-              <div className="group cursor-pointer transform transition-all duration-300 hover:scale-105" onClick={handleOrdersClick}>
-                <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-12 border border-gray-200 hover:border-teal-400 shadow-lg hover:shadow-xl transition-all duration-300 h-80 flex flex-col justify-center">
-                  <div className="text-center">
-                    <div className="w-28 h-28 bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
-                      <Package className="w-14 h-14 text-white" />
-                    </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-8">Orders</h3>
-                    <div className="flex items-center justify-center space-x-3 text-teal-600 group-hover:text-teal-700 font-semibold text-lg">
-                      <span>View Orders</span>
-                      <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group cursor-pointer transform transition-all duration-300 hover:scale-105">
-                <div className="bg-white/90 backdrop-blur-lg rounded-3xl p-12 border border-gray-200 hover:border-teal-400 shadow-lg hover:shadow-xl transition-all duration-300 h-80 flex flex-col justify-center">
-                  <div className="text-center">
-                    <div className="w-28 h-28 bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform">
-                      <CheckCircle className="w-14 h-14 text-white" />
-                    </div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-8">Checklist</h3>
-                    <div className="flex items-center justify-center space-x-3 text-teal-600 group-hover:text-teal-700 font-semibold text-lg">
-                      <span>View Progress</span>
-                      <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <button
-                onClick={() => setStage('welcome')}
-                className="text-gray-600 hover:text-gray-900 py-3 px-6 rounded-2xl border border-gray-200 hover:bg-gray-50 transition-all duration-300"
-              >
-                ← Back to Booth Entry
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  
 
   // EXACT ORDERS LAYOUT FROM THE SECOND FILE (PREVIOUS APP)
   if (stage === 'orders') {
